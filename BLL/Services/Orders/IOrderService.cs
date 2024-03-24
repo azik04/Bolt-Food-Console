@@ -5,11 +5,9 @@ namespace BLL.Services.Orders
     public interface IOrderService
     {
         IBaseResponse<List<Order>> GetAll();
-        Task<IBaseResponse<Order>> Create(Order order);
-        Task<IBaseResponse<Order>> Delete(int id);
-
-        ///user get his orders
-        IBaseResponse<List<Order>> GetByUser(string name);
-        Task<IBaseResponse<Order>> GetById(int id);
+        Task<IBaseResponse<Order>> Create();
+        Task<IBaseResponse<Order>> Delete();
+        IBaseResponse<List<Order>> GetByUser();
+        Task<IBaseResponse<Order>> GetById();
     }
 }
