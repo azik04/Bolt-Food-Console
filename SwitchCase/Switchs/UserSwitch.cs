@@ -19,7 +19,7 @@ namespace SwitchCase.Switchs
             Console.WriteLine("2. Log In");
             Console.WriteLine("3. Register");
             string choice = Console.ReadLine();
-
+            //while(_userService.LogIn())
             switch (choice)
             {
                 case "1":

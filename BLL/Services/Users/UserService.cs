@@ -1,5 +1,4 @@
-﻿using DAL.Repositories.Roles;
-using DAL.Repositories.Users;
+﻿using DAL.Repositories.Users;
 using Domain.Entity;
 using Domain.Response;
 
@@ -8,11 +7,9 @@ namespace BLL.Services.Users
     public class UserService : IUserService
     {
         private readonly UserRepository _rep;
-        private readonly RoleRepository _role;
-        public UserService(UserRepository rep, RoleRepository role)
+        public UserService(UserRepository rep)
         {
             _rep = rep;
-            _role = role;
         }
         public async Task<IBaseResponse<User>> LogIn()
         {
@@ -43,11 +40,6 @@ namespace BLL.Services.Users
         {
             try
             {
-                var roles = _role.GetAll();
-                foreach (var item in roles)
-                {
-                    Console.WriteLine($"Role: {item.Name}");
-                }
                 Console.WriteLine("Wright your UserName:");
                 var name = Console.ReadLine();
                 Console.WriteLine("Wright your Password");
@@ -55,23 +47,12 @@ namespace BLL.Services.Users
                 Console.WriteLine("Admin or User??");
                 var roleName = Console.ReadLine();
 
-                var role = await _role.GetByName(roleName);
-
-                if (role == null)
-                {
-                    
-                    return new BaseResponse<User>()
-                    {
-                        Description = "Role does not exist",
-                        StatusCode = Domain.Enums.StatusCode.InternetServerError
-                    };
-                }
+               
 
                 User data = new User()
                 {
                     Name = name,
                     Password = password,
-                    Role = role,
                 };
                 await _rep.Create(data);
                 return new BaseResponse<User>

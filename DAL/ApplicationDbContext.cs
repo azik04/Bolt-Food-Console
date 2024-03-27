@@ -15,7 +15,6 @@ namespace DAL
         public DbSet<User> user { get; set; }
         public DbSet<Order> order { get; set; }
         public DbSet<Restoran> restoran { get; set; }
-        public DbSet<Role> role { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

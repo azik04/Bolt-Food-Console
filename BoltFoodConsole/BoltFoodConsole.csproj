@@ -17,7 +17,6 @@
     <ProjectReference Include="..\BLL\BLL.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\SwitchCase\SwitchCase.csproj" />
   </ItemGroup>
 
 </Project>

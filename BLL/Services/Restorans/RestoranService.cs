@@ -28,6 +28,7 @@ namespace BLL.Services.Restorans
                     Description = desc,
                 };
                 await _rep.Create(data);
+                Console.Clear();
                 return new BaseResponse<Restoran>
                 {
                     Data = data,
@@ -53,6 +54,7 @@ namespace BLL.Services.Restorans
                 var rem = Console.ReadLine();
                 var remove = _rep.GetAll().FirstOrDefault(x => x.Name == rem);
                 await _rep.Delete(remove);
+                Console.Clear();
                 return new BaseResponse<Restoran>
                 {
                     Data = remove,
@@ -75,6 +77,7 @@ namespace BLL.Services.Restorans
             try
             {
                 var data = _rep.GetAll().ToList();
+                Console.Clear();
                 foreach (var item in data)
                 {
                     Console.WriteLine($"Restoran: {item.Name}, Description: {item.Description}");
@@ -105,6 +108,7 @@ namespace BLL.Services.Restorans
                 var one = Console.ReadLine();
                 var food = _rep.GetAll().SingleOrDefault(x => x.Name == one);
                 var lame = _food.GetAll().Where(x => x.RestoranName == food.Name);
+                Console.Clear();
                 foreach (var item in lame)
                 {
                     Console.WriteLine($"Restoran: {food.Name}, Description: {food.Description}, Foods: {item.Name} have been succesfully found");
