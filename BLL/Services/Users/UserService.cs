@@ -43,21 +43,28 @@ namespace BLL.Services.Users
         {
             try
             {
+                var roles = _role.GetAll();
+                foreach (var item in roles)
+                {
+                    Console.WriteLine($"Role: {item.Name}");
+                }
                 Console.WriteLine("Wright your UserName:");
                 var name = Console.ReadLine();
                 Console.WriteLine("Wright your Password");
                 string password = Console.ReadLine();
                 Console.WriteLine("Admin or User??");
                 var roleName = Console.ReadLine();
-                Role role = null;
 
-                if (roleName == "Admin")
+                var role = await _role.GetByName(roleName);
+
+                if (role == null)
                 {
-                    role = new Role { Id = 1, Name = "Admin" };
-                }
-                else if (roleName== "User")
-                {
-                    role = new Role { Id = 2, Name = "User" }; 
+                    
+                    return new BaseResponse<User>()
+                    {
+                        Description = "Role does not exist",
+                        StatusCode = Domain.Enums.StatusCode.InternetServerError
+                    };
                 }
 
                 User data = new User()
@@ -66,8 +73,6 @@ namespace BLL.Services.Users
                     Password = password,
                     Role = role,
                 };
-
-
                 await _rep.Create(data);
                 return new BaseResponse<User>
                 {
@@ -76,7 +81,7 @@ namespace BLL.Services.Users
                     StatusCode = Domain.Enums.StatusCode.Ok
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new BaseResponse<User>()
                 {

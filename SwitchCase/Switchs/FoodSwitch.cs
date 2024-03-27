@@ -7,16 +7,18 @@ namespace SwitchCase.Switchs
     {
         private readonly IFoodService _foodService;
         private readonly Role _userRole;
-        public FoodSwitch(IFoodService foodService, Role userRole)
+        private readonly User _user;
+        public FoodSwitch(IFoodService foodService, Role userRole, User user)
         {
             _foodService = foodService;
             _userRole = userRole;
+            _user = user;
         }
 
         public async Task ExecuteSwitch()
         {
-            if (_userRole.Name== "Admin")
-            {
+            //if (_user.Role.Name == "Admin")
+            //{
                 Console.WriteLine("Enter your choice:");
                 Console.WriteLine("1. Create Food");
                 Console.WriteLine("2. Delete Food");
@@ -58,34 +60,34 @@ namespace SwitchCase.Switchs
                         break;
                 }
             }
-            else
-            {
-                Console.WriteLine("Enter your choice:");
-                Console.WriteLine("1. Get All Foods");
-                Console.WriteLine("2. Get Food By Id");
-                Console.WriteLine("3. Get Food By Name");
+            //else
+            //{
+            //    Console.WriteLine("Enter your choice:");
+            //    Console.WriteLine("1. Get All Foods");
+            //    Console.WriteLine("2. Get Food By Id");
+            //    Console.WriteLine("3. Get Food By Name");
 
-                string choice = Console.ReadLine();
+            //    string choice = Console.ReadLine();
 
-                switch (choice)
-                {
-                    case "1":
-                        var allResponse = _foodService.GetAll();
-                        Console.WriteLine(allResponse.Description);
-                        break;
-                    case "2":
-                        var getByIdResponse = await _foodService.GetById();
-                        Console.WriteLine(getByIdResponse.Description);
-                        break;
-                    case "3":
-                        var getByNameResponse = _foodService.GetByName();
-                        Console.WriteLine(getByNameResponse.Description);
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice");
-                        break;
-                }
-            }
-        } 
+            //    switch (choice)
+            //    {
+            //        case "1":
+            //            var allResponse = _foodService.GetAll();
+            //            Console.WriteLine(allResponse.Description);
+            //            break;
+            //        case "2":
+            //            var getByIdResponse = await _foodService.GetById();
+            //            Console.WriteLine(getByIdResponse.Description);
+            //            break;
+            //        case "3":
+            //            var getByNameResponse = _foodService.GetByName();
+            //            Console.WriteLine(getByNameResponse.Description);
+            //            break;
+            //        default:
+            //            Console.WriteLine("Invalid choice");
+            //            break;
+            //    }
+            //}
+        
     }
 }

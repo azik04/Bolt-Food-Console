@@ -12,6 +12,8 @@ namespace DAL.Repositories.Roles
 
         public async Task<bool> Create(Role entity)
         {
+            
+            
             await _db.role.AddAsync(entity);
             await _db.SaveChangesAsync();
             return true;

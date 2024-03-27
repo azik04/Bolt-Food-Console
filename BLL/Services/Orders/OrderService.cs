@@ -21,16 +21,19 @@ namespace BLL.Services.Orderd
                 var name = Console.ReadLine();
                 Console.WriteLine("Order RestoranName:");
                 string restoranId = Console.ReadLine();
+                Console.WriteLine("UserName Order:");
+                string userName = Console.ReadLine();
                 Order data = new Order
                 {
                     FoodName = name,
                     RestoranName = restoranId,
+                    UserName = userName
                 };
                 await _rep.Create(data);
                 return new BaseResponse<Order>
                 {
                     Data = data,
-                    Description = "Order has been succesfully Create",
+                    Description = $"Order: {data.FoodName} from:{data.RestoranName}, for {data.UserName} has been succesfully Create",
                     StatusCode = Domain.Enums.StatusCode.Ok
                 };
             }
@@ -75,6 +78,10 @@ namespace BLL.Services.Orderd
             try
             {
                 var data = _rep.GetAll().ToList();
+                foreach (var item in data)
+                {
+                    Console.WriteLine($"Order: FoodName: {item.FoodName}, RestoranName {item.RestoranName}, UserName {item.UserName}");
+                }
                 return new BaseResponse<List<Order>>
                 {
                     Data = data,
@@ -103,7 +110,7 @@ namespace BLL.Services.Orderd
                 return new BaseResponse<Order>
                 {
                     Data = data,
-                    Description = "Order has been succesfully found"
+                    Description =$"Order: {data.FoodName} for {data.UserName} has been succesfully found"
                 };
             }
             catch (Exception ex)
@@ -123,6 +130,10 @@ namespace BLL.Services.Orderd
                 Console.WriteLine("Wright your UserName:");
                 var rem = Console.ReadLine();
                 var user = _rep.GetAll().Where(x => x.UserName == rem).ToList();
+                foreach (var item in user)
+                {
+                    Console.WriteLine($"Order: FoodName: {item.FoodName}, RestoranName {item.RestoranName}, UserName {item.UserName}");
+                }
                 return new BaseResponse<List<Order>>
                 {
                     Data = user,

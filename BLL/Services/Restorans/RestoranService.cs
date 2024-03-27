@@ -1,17 +1,17 @@
-﻿using BLL.Services.Foods;
-using DAL.Repositories;
+﻿using DAL.Repositories;
 using Domain.Entity;
 using Domain.Response;
-using Domain.ViewModel.Restorans;
 
 namespace BLL.Services.Restorans
 {
     public class RestoranService : IRestoranService
     {
         private readonly IBaseRepository<Restoran> _rep;
-        public RestoranService(IBaseRepository<Restoran> rep)
+        private readonly IBaseRepository<Food> _food;
+        public RestoranService(IBaseRepository<Restoran> rep, IBaseRepository<Food> food)
         {
             _rep = rep;
+            _food = food;
         }
 
         public async Task<IBaseResponse<Restoran>> Create()
@@ -31,7 +31,7 @@ namespace BLL.Services.Restorans
                 return new BaseResponse<Restoran>
                 {
                     Data = data,
-                    Description = "Restoran has been succesfully Create",
+                    Description = $"Restoran: {data.Name} has been succesfully Create",
                     StatusCode = Domain.Enums.StatusCode.Ok
                 };
             }
@@ -56,7 +56,7 @@ namespace BLL.Services.Restorans
                 return new BaseResponse<Restoran>
                 {
                     Data = remove,
-                    Description = "Restoran has been successfully Removed",
+                    Description = $"Restoran: {remove.Name} has been successfully Removed",
                     StatusCode = Domain.Enums.StatusCode.Ok
                 };
             }
@@ -75,6 +75,10 @@ namespace BLL.Services.Restorans
             try
             {
                 var data = _rep.GetAll().ToList();
+                foreach (var item in data)
+                {
+                    Console.WriteLine($"Restoran: {item.Name}, Description: {item.Description}");
+                }
                 return new BaseResponse<List<Restoran>>
                 {
                     Data = data,
@@ -100,10 +104,15 @@ namespace BLL.Services.Restorans
                 Console.WriteLine("Wright a Restoran Name thats you tryna search");
                 var one = Console.ReadLine();
                 var food = _rep.GetAll().SingleOrDefault(x => x.Name == one);
+                var lame = _food.GetAll().Where(x => x.RestoranName == food.Name);
+                foreach (var item in lame)
+                {
+                    Console.WriteLine($"Restoran: {food.Name}, Description: {food.Description}, Foods: {item.Name} have been succesfully found");
+                };
                 return new BaseResponse<Restoran>
                 {
                     Data = food,
-                    Description = "Category of Restoran have been succesfully found",
+                    Description = $"Restoran have been succesfully found",
                     StatusCode = Domain.Enums.StatusCode.Ok
                 };
             }

@@ -1,15 +1,18 @@
 ﻿using DAL.Repositories;
 using Domain.Entity;
 using Domain.Response;
+using System.Data;
 
 namespace BLL.Services.Foods
 {
     public class FoodService : IFoodService
     {
         private readonly IBaseRepository<Food> _rep;
-        public FoodService(IBaseRepository<Food> rep)
+        private readonly IBaseRepository<Restoran> _res;
+        public FoodService(IBaseRepository<Food> rep, IBaseRepository<Restoran> res)
         {
             _rep = rep;
+            _res = res;
         }
 
         public async Task<IBaseResponse<Food>> Create()
@@ -21,14 +24,14 @@ namespace BLL.Services.Foods
                 var name = Console.ReadLine();
                 Console.WriteLine("Add Food Description:");
                 string description = Console.ReadLine();
-                Console.WriteLine("Add Food RestoranId:");
+                Console.WriteLine("Add Food RestoranName:");
                 string restoranId = Console.ReadLine();
-                var pa = int.Parse(restoranId);
+                //var anna = _res.GetAll().FirstOrDefault(x => x.Name == restoranId);
                 Food data = new Food()
                 {
                     Name = name,
                     Description = description,
-                    RestoranId = pa,
+                    RestoranName = restoranId,
                 };
                 await _rep.Create(data);
                 return new BaseResponse<Food>
@@ -59,7 +62,7 @@ namespace BLL.Services.Foods
                 return new BaseResponse<Food>
                 {
                     Data = remove,
-                    Description = "Food has been successfully Removed",
+                    Description = $"Food: {remove.Name} has been successfully Removed from {remove.RestoranName}",
                     StatusCode = Domain.Enums.StatusCode.Ok
                 };
             }
@@ -78,6 +81,10 @@ namespace BLL.Services.Foods
             try
             {
                 var data = _rep.GetAll().ToList();
+                foreach (var item in data)
+                {
+                    Console.WriteLine($"Food: {item.Name}, Descrption: {item.Description}, RestoranName: {item.RestoranName}");
+                }
                 return new BaseResponse<List<Food>>
                 {
                     Data = data,
@@ -103,6 +110,7 @@ namespace BLL.Services.Foods
                 var one = Console.ReadLine();
                 var two = int.Parse(one);
                 var data = _rep.GetAll().FirstOrDefault(x => x.Id == two);
+                Console.WriteLine($"Food: {data.Name}, Descrption: {data.Description}, RestoranName: {data.RestoranName}");
                 return new BaseResponse<Food>
                 {
                     Data = data,
@@ -154,12 +162,12 @@ namespace BLL.Services.Foods
                 var name = Console.ReadLine();
                 Console.WriteLine("Wright the Food Description you want to update:");
                 var description = Console.ReadLine();
-                Console.WriteLine("Wright the Food RestoranId you want to update:");
+                Console.WriteLine("Wright the Food RestoranName you want to update:");
                 var restoranId = Console.ReadLine();
-                var upd = int.Parse(restoranId);
+                //var anna = _res.GetAll().FirstOrDefault(x => x.Name == restoranId);
                 obj.Name = name;
                 obj.Description = description;
-                obj.RestoranId = upd;
+                obj.RestoranName = restoranId;
                 await _rep.Update(obj);
                 return new BaseResponse<Food>
                 {
